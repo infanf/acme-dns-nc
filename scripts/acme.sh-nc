@@ -3,9 +3,18 @@
 dns_fnx_nc_add()
 {
 	"$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/acme-dns-nc" --add "$1" "$2"
+	echo 1
+	sleep 30m
 }
 
 dns_fnx_nc_rm()
 {
 	"$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/acme-dns-nc" --del "$1" "$2"
 }
+
+if [ -z $CERTBOT_AUTH_OUTPUT ]
+then
+	dns_fnx_nc_add $CERTBOT_DOMAIN $CERTBOT_VALIDATION
+else
+	dns_fnx_nc_rm $CERTBOT_DOMAIN $CERTBOT_VALIDATION
+fi
